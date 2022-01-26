@@ -12,7 +12,7 @@ require_once __DIR__ . '/helpers.php';
 
 $client = new Lyra\Client();
 //$total = number_format($total_final, 2, '', '');
-$token = $payToken;
+$token = $uuID;
 //$total = $total . 0000;
 if (isset($_GET['requestObject'])) {
     $store = json_decode($_GET['requestObject']);
