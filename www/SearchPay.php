@@ -18,7 +18,7 @@ if (isset($_GET['requestObject'])) {
     $store = json_decode($_GET['requestObject']);
 } else {
     $store = array(
-        "paymentMethodToken"=> $token,
+        "uuid"=> $token,
         );
 }
 
@@ -27,8 +27,7 @@ if (isset($_GET['requestObject'])) {
 /**
  * I create a formToken
  */
-
-$response = $client->post("V4/Token/Get", $store);
+$response = $client->post("V4/Transaction/Get", $store);
 
 //* I check if there are some errors */
 if ($response['status'] != 'SUCCESS') {
