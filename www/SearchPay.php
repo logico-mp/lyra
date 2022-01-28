@@ -32,11 +32,11 @@ $response = $client->post("V4/Transaction/Get", $store);
 //* I check if there are some errors */
 if ($response['status'] != 'SUCCESS') {
     /* an error occurs */
-    $error = $response['answer'];
-    header("Content-Type", "application/json");
-    header('HTTP/1.1 500 Internal Server Error');
-    echo '{"error": "' . $error['errorCode'] . '", "_type": "DemoError" }';
-    die();
+//    $error = $response['answer'];
+//    header("Content-Type", "application/json");
+//    header('HTTP/1.1 500 Internal Server Error');
+//    echo '{"error": "' . $error['errorCode'] . '", "_type": "DemoError" }';
+//    die();
 }
 
 /* everything is fine, I extract the formToken */
