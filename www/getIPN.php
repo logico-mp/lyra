@@ -43,6 +43,7 @@ $orderStatus = $formAnswer['orderStatus'];
 $orderId = $formAnswer['orderDetails']['orderId'];
 $transactionUuid = $transaction['uuid'];
 
+
 /* I update my database if needed */
 /* Add here your custom code */
 
@@ -51,4 +52,4 @@ $transactionUuid = $transaction['uuid'];
  * You can return want you want but
  * HTTP response code should be 200
  */
-print 'OK! OrderStatus is ' . $orderStatus;
+
