@@ -19,8 +19,23 @@ if (isset($_GET['requestObject'])) {
                     "formAction" => "REGISTER_PAY",         
                     "currency" => "ARS",
                     "orderId" => uniqid($compra->get_id()),
-                    "customer" => array(
-                            "email" => $_usuario->get_email())
+                    "customer" => 
+                        array(
+                            "email" => $_usuario->get_email(),
+                             "billingDetails" => array(
+                                "firstName" => $_usuario->get_nombre(),
+                                "lastName" => $_usuario->get_apellido(),
+                                "phoneNumber" => $compra->idDomicilio->telefono,
+                                "streetNumber" => $compra->idDomicilio->numero,                                 
+                                "address" => $compra->idDomicilio->calle,
+                                "zipCode" => $compra->idDomicilio->cp,
+                                "city" => $compra->idDomicilio->localidad,
+                                "state" => $compra->idDomicilio->provinciaId->nombre,
+                                "identityCode" => $_usuario->get_id()                                    
+                            ),
+                        "reference" => $compra->get_id()                            
+                        ),
+                    "strongAuthentication" => "CHALLENGE_REQUESTED"
                     );
 }
 
