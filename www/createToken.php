@@ -18,7 +18,6 @@ if (isset($_GET['requestObject'])) {
     $store = array( "amount" => $total, 
                     "formAction" => "REGISTER_PAY",         
                     "currency" => "ARS",
-                    "orderId" => uniqid($compra->get_id()),
                     "customer" => 
                         array(
                             "email" => $_usuario->get_email(),
@@ -35,7 +34,8 @@ if (isset($_GET['requestObject'])) {
                             ),
                         "reference" => $compra->get_id()                            
                         ),
-                    "strongAuthentication" => "CHALLENGE_REQUESTED"
+                    "orderId" => uniqid($compra->get_id()),        
+                    "strongAuthentication" => "CHALLENGE_MANDATE"
                     );
 }
 
