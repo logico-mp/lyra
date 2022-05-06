@@ -11,6 +11,7 @@ require_once __DIR__ . '/helpers.php';
  */
 $client = new Lyra\Client();
 
+$total = number_format($total, 2, '', '');
 
 //$total = $total . 0000;
 if (isset($_GET['requestObject'])) {
@@ -25,7 +26,6 @@ if (isset($_GET['requestObject'])) {
 /**
  * I create a formToken
  */
-
 $responseCancel = $client->post("V4/Transaction/CancelOrRefund", $store);
 
 //* I check if there are some errors */
