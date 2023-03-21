@@ -22,16 +22,16 @@ if (isset($_GET['requestObject'])) {
                         array(
                             "email" => $_usuario->get_email(),
                              "billingDetails" => array(
-                                "firstName" => $_usuario->get_nombre(),
-                                "lastName" => $_usuario->get_apellido(),
-                                "phoneNumber" => $compra->idDomicilio->telefono,
-                                "streetNumber" => $compra->idDomicilio->numero,                                 
-                                "address" => $compra->idDomicilio->calle,
-                                "zipCode" => $compra->idDomicilio->cp,
-                                "city" => $compra->idDomicilio->localidad,
-                                "state" => $compra->idDomicilio->provinciaId->nombre,
-                                "identityCode" => $_usuario->get_id()                                    
-                            ),
+                                 "firstName" => $_usuario->get_nombre(),
+                                 "lastName" => $_usuario->get_apellido(),
+                                 "phoneNumber" => $compra->idDomicilio->telefono,
+                                 "streetNumber" => is_string($compra->idDomicilio->numero),
+                                 "address" => is_string($compra->idDomicilio->calle),
+                                 "zipCode" => is_string($compra->idDomicilio->cp),
+                                 "city" => is_string($compra->idDomicilio->localidad),
+                                 "state" => $compra->idDomicilio->provinciaId->nombre,
+                                 "identityCode" => $_usuario->get_id()
+                             ),
                         "reference" => $compra->get_id()                            
                         ),
                     "orderId" => uniqid($compra->get_id()),        
