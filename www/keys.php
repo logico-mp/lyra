@@ -29,5 +29,8 @@ Lyra\Client::setDefaultEndpoint($endPoint);
 /* publicKey and used by the javascript client */
 Lyra\Client::setDefaultPublicKey($publicKey);
 
+/* Javascript content delivery server */
+Lyra\Client::setDefaultClientEndpoint("https://static.payzen.eu");
+
 /* SHA256 key */
 Lyra\Client::setDefaultSHA256Key($claveSHA256);
