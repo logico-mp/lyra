@@ -25,8 +25,9 @@ if (isset($_GET['requestObject'])) {
                                  "firstName" => $_usuario->get_nombre(),
                                  "lastName" => $_usuario->get_apellido(),
                                  "phoneNumber" => $compra->idDomicilio->telefono,
-                                 "streetNumber" => is_string($compra->idDomicilio->numero),
-                                 "address" => is_string($compra->idDomicilio->calle),
+
+                                 "streetNumber" => is_string( str_replace(array(',', '.'), '', $compra->idDomicilio->numero)),
+                                 "address" => is_string( str_replace(array(',', '.'), '', $compra->idDomicilio->calle)),
                                  "zipCode" => is_string($compra->idDomicilio->cp),
                                  "city" => is_string($compra->idDomicilio->localidad),
                                  "state" => $compra->idDomicilio->provinciaId->nombre,
