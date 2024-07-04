@@ -36,7 +36,9 @@ if (isset($_GET['requestObject'])) {
                         "reference" => $compra->get_id()                            
                         ),
                     "orderId" => uniqid($compra->get_id()),        
-                    "strongAuthentication" => "CHALLENGE_MANDATE"
+//                    "strongAuthentication" => "CHALLENGE_MANDATE"
+                    "strongAuthentication" => "AUTO"
+        
 //                    "strongAuthentication" => "CHALLENGE_REQUESTED"
         
                     );
