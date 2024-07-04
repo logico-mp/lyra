@@ -37,9 +37,9 @@ if (isset($_GET['requestObject'])) {
                         ),
                     "orderId" => uniqid($compra->get_id()),        
 //                    "strongAuthentication" => "CHALLENGE_MANDATE"
-                    "strongAuthentication" => "FRICTIONLESS"
+  //                  "strongAuthentication" => "CHALLENGE_MANDATE"
         
-//                    "strongAuthentication" => "CHALLENGE_REQUESTED"
+                    "strongAuthentication" => "CHALLENGE_REQUESTED"
         
                     );
 }
