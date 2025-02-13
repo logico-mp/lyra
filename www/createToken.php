@@ -5,8 +5,8 @@
 require_once __DIR__ . '/vendor/autoload.php';
 require_once __DIR__ . '/keys.php';
 require_once __DIR__ . '/helpers.php';
-/** 
- * Initialize the SDK 
+/**
+ * Initialize the SDK
  * see keys.php
  */
 $client = new Lyra\Client();
@@ -15,10 +15,10 @@ $total = number_format($total_final, 2, '', '');
 if (isset($_GET['requestObject'])) {
     $store = json_decode($_GET['requestObject']);
 } else {
-    $store = array( "amount" => $total, 
-                    "formAction" => "REGISTER_PAY",         
+    $store = array( "amount" => $total,
+                    "formAction" => "REGISTER_PAY",
                     "currency" => "ARS",
-                    "customer" => 
+                    "customer" =>
                         array(
                             "email" => $_usuario->get_email(),
                              "billingDetails" => array(
@@ -33,12 +33,17 @@ if (isset($_GET['requestObject'])) {
 //                                 "state" => $compra->idDomicilio->provinciaId->nombre,
                                  "identityCode" => $_usuario->get_id()
                              ),
-                        "reference" => $compra->get_id()                            
+                        "reference" => $compra->get_id()
                         ),
-                    "orderId" => uniqid($compra->get_id()),        
+                    "orderId" => uniqid($compra->get_id()),
+                    "transactionOptions" => array(
+                        "cardOptions" => array(
+                            "restrictedInstallments" => is_array($cuotas) ? $cuotas : array(1, 3)
+                        )
+                    ),
                     "strongAuthentication" => "CHALLENGE_MANDATE"
 //                    "strongAuthentication" => "CHALLENGE_REQUESTED"
-        
+
                     );
 }
 
@@ -62,4 +67,4 @@ if ($response['status'] != 'SUCCESS') {
 $formToken = $response["answer"]["formToken"];
 
 //header("Content-Type", "application/json");
-//echo '{"formToken": "' . $formToken . '"", "_type": "DemoFormToken" }'; 
+//echo '{"formToken": "' . $formToken . '"", "_type": "DemoFormToken" }';
