@@ -37,7 +37,7 @@ if (isset($_GET['requestObject'])) {
                     "orderId" => uniqid($compra->get_id()),
                     "transactionOptions" => array(
                         "cardOptions" => array(
-                            "restrictedInstallments" =>  array(1, 3)
+                            "restrictedInstallments" =>  array(1, 3,8)
                         )
                     ),
                     "strongAuthentication" => "CHALLENGE_MANDATE"
