@@ -35,11 +35,11 @@ if (isset($_GET['requestObject'])) {
                         "reference" => $compra->get_id()
                         ),
                     "orderId" => uniqid($compra->get_id()),
-//                    "transactionOptions" => array(
-//                        "cardOptions" => array(
-//                            "restrictedInstallments" => is_array($cuotas) ? $cuotas : array(1, 3)
-//                        )
-//                    ),
+                    "transactionOptions" => array(
+                        "cardOptions" => array(
+                            "restrictedInstallments" =>  array(1, 3)
+                        )
+                    ),
                     "strongAuthentication" => "CHALLENGE_MANDATE"
 //                    "strongAuthentication" => "CHALLENGE_REQUESTED"
 
