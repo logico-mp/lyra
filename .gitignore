@@ -9,3 +9,4 @@ sync.sh
 .idea/php.xml
 .idea/vcs.xml
 .idea/workspace.xml
+/www/nbproject/private/

@@ -25,7 +25,6 @@ if (isset($_GET['requestObject'])) {
                                  "firstName" => $_usuario->get_nombre(),
                                  "lastName" => $_usuario->get_apellido(),
 //                                 "phoneNumber" => $compra->idDomicilio->telefono,
-//
 //                                 "streetNumber" => is_string( str_replace(array(',', '.'), '', $compra->idDomicilio->numero)),
 //                                 "address" => is_string( str_replace(array(',', '.'), '', $compra->idDomicilio->calle)),
 //                                 "zipCode" => is_string($compra->idDomicilio->cp),
@@ -36,11 +35,11 @@ if (isset($_GET['requestObject'])) {
                         "reference" => $compra->get_id()
                         ),
                     "orderId" => uniqid($compra->get_id()),
-                    "transactionOptions" => array(
-                        "cardOptions" => array(
-                            "restrictedInstallments" => is_array($cuotas) ? $cuotas : array(1, 3)
-                        )
-                    ),
+//                    "transactionOptions" => array(
+//                        "cardOptions" => array(
+//                            "restrictedInstallments" => is_array($cuotas) ? $cuotas : array(1, 3)
+//                        )
+//                    ),
                     "strongAuthentication" => "CHALLENGE_MANDATE"
 //                    "strongAuthentication" => "CHALLENGE_REQUESTED"
 
