@@ -1,54 +1,48 @@
 <?php
-/**
- * I initialize the PHP SDK
- */
 require_once __DIR__ . '/vendor/autoload.php';
-require __DIR__ . '/keys.php';
+require_once __DIR__ . '/keys.php';
 require_once __DIR__ . '/helpers.php';
-/**
- * Initialize the SDK
- * see keys.php
- */
+require_once __DIR__ . '/../../vendor/libs/market-core/models/LogErrorGateway.php';
+
+use MarketCore\Models\LogErrorGateway;
 
 $client = new Lyra\Client();
 $total = number_format($total_final, 2, '', '');
 $token = $payToken;
-//$total = $total . 0000;
-if (isset($_GET['requestObject'])) {
-    $store = json_decode($_GET['requestObject']);
-} else {
-    $store = array( "amount" => $total,
-        "currency" => "ARS",
-        "paymentMethodToken"=> $token,
-        "formAction" => "SILENT",
 
-        "transactionOptions"=> array(
-                "cardOptions"=> array("installmentNumber"=> $silent_cuotas)
-            )
-        );
-}
+$store = isset($_GET['requestObject']) ? json_decode($_GET['requestObject']) : [
+    "amount" => $total,
+    "currency" => "ARS",
+    "paymentMethodToken" => $token,
+    "formAction" => "SILENT",
+    "transactionOptions" => [
+        "cardOptions" => ["installmentNumber" => $silent_cuotas]
+    ]
+];
 
-//print_r($store);
+try {
+    $responseSlient = $client->post("V4/Charge/CreatePayment", $store);
 
-/**
- * I create a formToken
- */
+    if ($responseSlient['status'] !== 'SUCCESS') {
+        throw new \Exception("Error de Lyra SilentPay: " . json_encode($responseSlient['answer']));
+    }
 
-$responseSlient = $client->post("V4/Charge/CreatePayment", $store);
+    $Token = $responseSlient["answer"]["paymentMethodToken"];
 
-//* I check if there are some errors */
-if ($responseSlient['status'] != 'SUCCESS') {
-    /* an error occurs */
-    $error = $responseSlient['answer'];
+} catch (\Throwable $e) {
+    LogErrorGateway::registrar(
+        $userId ?? null,
+        $compraId ?? null,
+        "Error en createSilentPay: " . $error['errorCode'],
+        $store,
+        'createSilentPay'
+    );
+
     header("Content-Type", "application/json");
-    header('HTTP/1.1 500 Internal Server Error');
-    echo '{"error": "' . $error['errorCode'] . '", "_type": "DemoError" }';
+    http_response_code(500);
+    echo json_encode([
+        "error" => "Error al crear pago SILENT",
+        "message" => $e->getMessage()
+    ]);
     die();
 }
-
-/* everything is fine, I extract the formToken */
-$Token = $responseSlient["answer"]["paymentMethodToken"];
-
-//header("Content-Type", "application/json");
-//echo '{"formToken": "' . $formToken . '"", "_type": "DemoFormToken" }';
-
