@@ -4,6 +4,8 @@ require_once __DIR__ . '/keys.php';
 require_once __DIR__ . '/helpers.php';
 require_once __DIR__ . '/../../vendor/libs/market-core/models/LogErrorGateway.php';
 
+use MarketCore\Models\LogErrorGateway;
+
 $client = new Lyra\Client();
 $total = number_format($total_final, 2, '', '');
 $token = $payToken;
