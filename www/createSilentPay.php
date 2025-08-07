@@ -38,11 +38,15 @@ try {
         'createSilentPay'
     );
 
-    header("Content-Type", "application/json");
-    http_response_code(500);
-    echo json_encode([
-        "error" => "Error al crear pago SILENT",
-        "message" => $e->getMessage()
-    ]);
+//    header("Content-Type", "application/json");
+//    http_response_code(500);
+//    echo json_encode([
+//        "error" => "Error al crear pago SILENT",
+//        "message" => $e->getMessage()
+//    ]);
+    header('Location:' . HOME . 'finaliza_compra_error.html');
+    echo '<script>window.location.assign("' . HOME . 'finaliza_compra_error.html");</script>';
+    
+    
     die();
 }
