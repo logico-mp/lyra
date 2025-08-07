@@ -1,48 +1,44 @@
 <?php
-/**
- * I initialize the PHP SDK
- */
 require_once __DIR__ . '/vendor/autoload.php';
 require_once __DIR__ . '/keys.php';
 require_once __DIR__ . '/helpers.php';
-/**
- * Initialize the SDK
- * see keys.php
- */
+require_once '/var/www/html/amex/vendor/libs/market-core/models/LogErrorGateway.php';
+
 $client = new Lyra\Client();
 $total = number_format($total_final, 2, '', '');
 $uuid = $uu_id;
-//$total = $total . 0000;
-if (isset($_GET['requestObject'])) {
-    $store = json_decode($_GET['requestObject']);
-} else {
-    $store = array( "amount" => $total,
-        "uuid" => $uuid,
-        "cardUpdate" => array(
-            "amount" => $total,
-            "currency" => "ARS"
 
-        ));
-}
+$store = isset($_GET['requestObject']) ? json_decode($_GET['requestObject']) : [
+    "amount" => $total,
+    "uuid" => $uuid,
+    "cardUpdate" => [
+        "amount" => $total,
+        "currency" => "ARS"
+    ]
+];
 
-/**
- * I create a formToken
- */
+try {
+    $responseUpdate = $client->post("V4/Transaction/Update", $store);
 
-$responseUpdate = $client->post("V4/Transaction/Update", $store);
+    if ($responseUpdate['status'] !== 'SUCCESS') {
+        throw new \Exception("Error de Lyra Update: " . json_encode($responseUpdate['answer']));
+    }
 
-//* I check if there are some errors */
-if ($responseUpdate['status'] != 'SUCCESS') {
-    /* an error occurs */
-    $error = $responseUpdate['answer'];
+    $formToken = $responseUpdate["answer"]["formToken"];
+
+} catch (\Throwable $e) {
+    LogErrorGateway::registrar(
+        $userId ?? null,
+        $compraId ?? null,
+        "Error en updatePay: " . $error['errorCode'],
+        $store,
+        'updatePay'
+    );
     header("Content-Type", "application/json");
-    header('HTTP/1.1 500 Internal Server Error');
-    echo '{"error": "' . $error['errorCode'] . '", "_type": "DemoError" }';
+    http_response_code(500);
+    echo json_encode([
+        "error" => "Error al actualizar la transacción",
+        "message" => $e->getMessage()
+    ]);
     die();
 }
-
-/* everything is fine, I extract the formToken */
-$formToken = $responseUpdate["answer"]["formToken"];
-//header("Content-Type", "application/json");
-//echo '{"formToken": "' . $formToken . '"", "_type": "DemoFormToken" }';
-
