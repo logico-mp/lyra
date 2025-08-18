@@ -21,13 +21,14 @@ $store = isset($_GET['requestObject']) ? json_decode($_GET['requestObject']) : [
 ];
 
 try {
-    $responseSlient = $client->post("V4/Charge/CreatePayment", $store);
+    $responseSilent = $client->post("V4/Charge/CreatePayment", $store);
 
-    if ($responseSlient['status'] !== 'SUCCESS') {
-        throw new \Exception("Error de Lyra SilentPay: " . json_encode($responseSlient['answer']));
+    if ($responseSilent['status'] !== 'SUCCESS') {
+        throw new \Exception("Error de Lyra SilentPay: " . json_encode($responseSilent['answer']));
     }
 
-    $Token = $responseSlient["answer"]["paymentMethodToken"];
+    $Token = $responseSilent["answer"]["paymentMethodToken"];
+    
 
 } catch (\Throwable $e) {
     LogErrorGateway::registrar(
