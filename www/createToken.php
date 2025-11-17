@@ -39,7 +39,7 @@ if (isset($_GET['requestObject'])) {
                         "cardOptions" => array(
                             "restrictedInstallments" =>  $arrCuotas
                         )
-                    ),"strongAuthentication" => "DISABLED"
+                    ),"strongAuthentication" => "NO_PREFERENCE"
 //                    "strongAuthentication" => "CHALLENGE_REQUESTED"
 
                     );
