@@ -22,20 +22,48 @@ $store = isset($_GET['requestObject']) ? json_decode($_GET['requestObject']) : [
 try {
     $responseUpdate = $client->post("V4/Transaction/Update", $store);
 
-    if ($responseUpdate['status'] !== 'SUCCESS') {
-        throw new \Exception("Error de Lyra Update: " . json_encode($responseUpdate['answer']));
+    // Log temprano si viene raro
+    if (!isset($responseUpdate['status'])) {
+        LogErrorGateway::registrar(
+            $userId ?? null,
+            $compraId ?? null,
+            "Lyra Update sin status",
+            ['request' => $store, 'response' => $responseUpdate],
+            'updatePay'
+        );
+        throw new \Exception("Lyra Update sin status");
     }
 
-    $formToken = $responseUpdate["answer"]["formToken"];
+    if ($responseUpdate['status'] !== 'SUCCESS') {
+        LogErrorGateway::registrar(
+            $userId ?? null,
+            $compraId ?? null,
+            "Lyra Update status != SUCCESS",
+            ['request' => $store, 'response' => $responseUpdate],
+            'updatePay'
+        );
 
+        // Si querés ver el error:
+        // $errorAnswer = isset($responseUpdate['answer']) ? $responseUpdate['answer'] : null;
+        throw new \Exception("Error de Lyra Update");
+    }
+
+    // Si llega acá, fue SUCCESS
+    $formToken = $responseUpdate["answer"]["formToken"] ?? null;
+    
+    
 } catch (\Throwable $e) {
     LogErrorGateway::registrar(
         $userId ?? null,
         $compraId ?? null,
-        "Error en updatePay: " . $error['errorCode'],
-        $store,
+        "Excepción en updatePay: " . $e->getMessage(),
+        [
+            'request' => $store,
+            'trace'   => $e->getTraceAsString(),
+        ],
         'updatePay'
     );
+
 //    header("Content-Type", "application/json");
 //    http_response_code(500);
 //    echo json_encode([
