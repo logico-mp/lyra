@@ -40,8 +40,7 @@ if (isset($_GET['requestObject'])) {
                             "restrictedInstallments" =>  $arrCuotas
                         )
                     ),
-                        "strongAuthentication" => "NO_PREFERENCE"        
-   //                 "strongAuthentication" => "CHALLENGE_MANDATE"
+                    "strongAuthentication" => "CHALLENGE_MANDATE"
 //                    "strongAuthentication" => "CHALLENGE_REQUESTED"
 
                     );
